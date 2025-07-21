@@ -1,0 +1,16 @@
+yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mycontainer
+image: myimage
+resources:
+  	requests:
+    	memory: "64Mi"
+    	cpu: "250m"
+  	limits:
+    	memory: "128Mi"
+    	cpu: "500m"
