@@ -1,0 +1,60 @@
+yaml
+# Create a blue deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: blue
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:blue
+        ports:
+        - containerPort: 80
+---
+# Create a green deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:green
+        ports:
+        - containerPort: 80
+---
+# Create a service that can switch between blue and green deployments
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  selector:
+    app: myapp
+    version: blue  # Initially point to the blue deployment
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
